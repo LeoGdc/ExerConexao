@@ -12,12 +12,11 @@
     $action =(string)null;
     $component =(string)null;
     //validação para verificar se as requisição pe um POST de um formulário
-    if($_SERVER['REQUEST_METHOD']== 'POST'){
+    if($_SERVER['REQUEST_METHOD']== 'POST' || $_SERVER['REQUEST_METHOD'] == 'GET'){
     
         $component = strtoupper($_GET['component']);
         $action = strtoupper ($_GET['action']);
         
-
         //estrutura condicional para validar quem esta solicitando algo para o router
         switch($component){
             case'CONTATOS':
@@ -39,7 +38,25 @@
                             window.history.back();
                             </script>");
                 
+                }else if($action =='DELETAR'){
+                    //recebe o id do registro q devera ser excluido, que foi enviado pela url no link da img do excluir que foi acionado na index
+                    $idContato = $_GET['id'];
+
+                    $resposta = excluirContato($idContato);
+
+                    if(is_bool($resposta)){
+                        if($resposta){
+                            echo("<script>
+                            alert('Registro excluido com sucesso!');
+                            window.location.href = 'index.php'</script>");
+                        }
+                    }else if(is_array($resposta)){
+                        echo("<script>
+                        alert('".$resposta['message']."');
+                        window.history.back();
+                        </script>");
                     }
+                }
         break;
                 
         }         
