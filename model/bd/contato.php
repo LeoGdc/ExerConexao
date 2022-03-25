@@ -95,6 +95,7 @@ function selectAllContatos(){
         while($rsDados = mysqli_fetch_assoc($result)){
             //Criar um array com os dados BD
                 $arryDados{$cont} = array(
+                    "id" => $rsDados['idcontato'],
                     "nome" => $rsDados['nome'],
                     "telefone" => $rsDados['telefone'],
                     "celular" => $rsDados['celular'],

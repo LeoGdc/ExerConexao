@@ -86,27 +86,24 @@
                     foreach ($listaContato as $item)
                     {
                 ?>
-                <tr id="tblLinhas">
-                    <td class="tblColunas destaque"> <?=$item['nome']?></td>
-                    <td class="tblColunas destaque"> <?=$item['celular']?> </td>
-                    <td class="tblColunas destaque"> <?=$item['email']?> </td>
-                    <td class="tblColunas destaque"> <?=$item['telefone']?> </td>
-                </tr>
-               <?php
-               }
-               ?> 
+               
                
                 <tr id="tblLinhas">
-                    <td class="tblColunas registros"></td>
-                    <td class="tblColunas registros"></td>
-                    <td class="tblColunas registros"></td>
+                    <td class="tblColunas registros"><?=$item['nome']?></td>
+                    <td class="tblColunas registros"><?=$item['celular']?></td>
+                    <td class="tblColunas registros"><?=$item['email']?></td>
                    
                     <td class="tblColunas registros">
                             <img src="img/edit.png" alt="Editar" title="Editar" class="editar">
-                            <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
+                            <a href="router.php?component=contatos&action=deletar&id=<?=$item['id']?>">
+                                <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
+                            </a>
                             <img src="img/search.png" alt="Visualizar" title="Visualizar" class="pesquisar">
                     </td>
                 </tr>
+                 <?php
+               }
+               ?>
             </table>
         </div>
     </body>
