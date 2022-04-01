@@ -77,14 +77,14 @@
     return false;
 }
 //função para buscar contato atraves do id de registro
- function buscarcontato($id){
+ function buscarContato($id){
      //validação para verificar se o id contem um numero valido
      if($id != 0 && !empty($id) && is_numeric($id)){
          //import do arquivo de contato
         require_once('model/bd/contato.php');
 
         //chama a função na model que vai buscar o BD
-        $dado = selectByIdContato($id);
+        $dados = selectByIdContato($id);
 
         //valida se existem dados para serem desvolvidos
         if(!empty($dados))

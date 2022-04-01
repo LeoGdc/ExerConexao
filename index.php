@@ -95,7 +95,7 @@
                     <td class="tblColunas registros"><?=$item['email']?></td>
                    
                     <td class="tblColunas registros">
-                        <a href="router.php?component=contatos&action=buscar&id<?=$item['id']?>">
+                        <a href="router.php?component=contatos&action=buscar&id=<?=$item['id']?>">
                             <img src="img/edit.png" alt="Editar" title="Editar" class="editar">
                         </a>
                         <a onclick="return confirm('Deseja realmente Excluir este item?');" href="router.php?component=contatos&action=deletar&id=<?=$item['id']?>">

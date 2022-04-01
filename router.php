@@ -62,8 +62,10 @@
                     $idContato = $_GET['id'];
 
                     //chama a função de editar na controller
-                    $resposta = excluirContato($idContato);
+                    $dados = buscarContato($idContato);
                     
+                    var_dump($dados);
+                    die;
                 }
         break;
                 
