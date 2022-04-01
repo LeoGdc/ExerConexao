@@ -2,7 +2,7 @@
 /******************************************
  * Objetivos Arquivo reponsavel pela manipulção de dados contaveis
  *  Obs (Este arquivo fara a ponte entre a view e a Model)
- * Autor:Gean
+ * Autor:Leonardo
  * Data:04/03/2022
  * Versão: 1.0 
  * 
@@ -45,9 +45,8 @@
 }
 
 //fução para recerber dados da view e encaminhar parar o model (atualizar)
- function atualizarContato ()
-{
-
+ function atualizarContato (){
+    
 }
 //fução para realizar a exclusão de um contato
  function excluirContato ($id)
@@ -57,17 +56,16 @@
         //import do arquivo de contato
         require_once('model/bd/contato.php');
         //chama a função da model e valida se o retorno foi verdadeiro ou falso
-        if(deleteContato($id))
-            return true;
-        else 
-        return array('idErro' => 3, 'message' => 'o banco de dados não pode excluir o registro.');
-    }else{
-        return array('idErro' => 4, 'message' => 'não é possivel excluir um registro sem informar um id válido');
+            if(deleteContato($id))
+                return true;
+            else 
+            return array('idErro' => 3, 'message' => 'o banco de dados não pode excluir o registro.');
+        }else{
+            return array('idErro' => 4, 'message' => 'não é possivel excluir um registro sem informar um id válido');
+        }
     }
-}
 //fução para  solicitar os dados da model e encaminhar a lista de contatos para a view
- function listarContato ()
-{
+ function listarContato (){
     //import do arquivo que vai buscar os dados no BD
     require_once('model/bd/contato.php');
     //chama a função que vai buscar os dados no BD
@@ -78,8 +76,24 @@
     else
     return false;
 }
+//função para buscar contato atraves do id de registro
+ function buscarcontato($id){
+     //validação para verificar se o id contem um numero valido
+     if($id != 0 && !empty($id) && is_numeric($id)){
+         //import do arquivo de contato
+        require_once('model/bd/contato.php');
 
+        //chama a função na model que vai buscar o BD
+        $dado = selectByIdContato($id);
 
+        //valida se existem dados para serem desvolvidos
+        if(!empty($dados))
+            return $dados;
+        else
+            return false;
 
-
+     }else {
+        return array('idErro' => 4, 'message' => 'não é possivel buscar um registro sem informar um id válido');
+    }
+}
 ?>

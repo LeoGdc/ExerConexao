@@ -110,4 +110,36 @@ function selectAllContatos(){
             return $arryDados;
     }
 }
+//função para buscar um contato no BD atraves do id do registro
+function selectByIdContato($id){
+    
+     //Abre as conexão com o BD
+     $conexao = conexaoMysql();
+     //Script para listar todos os dados no BD
+     $sql = "select * from tblcontatos where idcontato =".$id;
+     //Executa o script sql no BD e guarda o retorno dos dados, se houver 
+     $result = mysqli_query($conexao, $sql);
+     //valida se o BD retornou os registro
+     if($result){
+         //mysqli_fetch_assoc() - permite converter os dados do BD em array de manipulação no PHP
+         //Nesta, repetição estamos, convertendo os dados do BD em um Array ($rsDados) , além de
+         // o proprio while conseguir gerenciar a quantidade de vezes que deverá ser feita a repetição
+         
+         if($rsDados = mysqli_fetch_assoc($result)){
+             //Criar um array com os dados BD
+                 $arrayDados = array(
+                     "id" => $rsDados['idcontato'],
+                     "nome" => $rsDados['nome'],
+                     "telefone" => $rsDados['telefone'],
+                     "celular" => $rsDados['celular'],
+                     "email" => $rsDados['email'],
+                     "obs" => $rsDados['obs']  
+                 );
+          }
+             //solicita o fechamento da conexão com o BD
+             fecharConexaoMySql($conexao);
+ 
+             return $arrayDados;
+     }
+}
 ?>

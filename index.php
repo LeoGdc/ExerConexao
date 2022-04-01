@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title> Cadastro </title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script src="js/main.js" defer></script>
 
 
     </head>
@@ -94,10 +95,12 @@
                     <td class="tblColunas registros"><?=$item['email']?></td>
                    
                     <td class="tblColunas registros">
+                        <a href="router.php?component=contatos&action=buscar&id<?=$item['id']?>">
                             <img src="img/edit.png" alt="Editar" title="Editar" class="editar">
-                            <a href="router.php?component=contatos&action=deletar&id=<?=$item['id']?>">
-                                <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
-                            </a>
+                        </a>
+                        <a onclick="return confirm('Deseja realmente Excluir este item?');" href="router.php?component=contatos&action=deletar&id=<?=$item['id']?>">
+                            <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
+                        </a>
                             <img src="img/search.png" alt="Visualizar" title="Visualizar" class="pesquisar">
                     </td>
                 </tr>
