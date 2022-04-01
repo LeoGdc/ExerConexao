@@ -3,7 +3,7 @@
  * Objetivo: responsavel de manipular os dados dentro   BD 
  *              (insert,update,select e delete)
  * 
- * Autor: Gean
+ * Autor: Leonardo
  * Data:11/03/2022
  * Versão: 1.0
  * 

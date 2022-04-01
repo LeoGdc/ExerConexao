@@ -64,9 +64,19 @@
                     //chama a função de editar na controller
                     $dados = buscarContato($idContato);
                     
-                    var_dump($dados);
-                    die;
-                }
+                    //ativa a utilização de variaveis de sessão no servidor
+                    session_start();
+
+                    //Guarda em uma variavel de sessão os dados que o BD retornou para a busca do id
+                        //Obs(essa variavel de sessão sera ultilizada na index.php, para colocar os dados nas caixas de texto)
+                    $_SESSION['dadosContato'] = $dados;
+                    
+                    //Utilizando o header tambem podemos chamar a index.php, porem havera uma ação de carregamento no navegador(piscando a tela novamento)
+                    //header('location: index.php');
+
+                    //Utilizando o require iremos apenas importar a tela da index, assim não havera um novo carregamento da pagina
+                    require_once('index.php');
+                }       
         break;
                 
         }         

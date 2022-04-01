@@ -1,3 +1,20 @@
+<?php
+    //valida se a utilização de variaveis de sessao esta ativa no servidor
+    if(session_status()){
+        //valida se a variavel de sessao dados contato não esta vazia
+         if(!empty($_SESSION['dadosContato'])){
+             $id        = $_SESSION['$dadosContato']['id'];
+             $nome      = $_SESSION['$dadosContato']['nome'];
+             $telefone  = $_SESSION['$dadosContato']['telefone'];
+             $celular   = $_SESSION['$dadosContato']['celular'];
+             $email     = $_SESSION['$dadosContato']['email'];
+             $obs       = $_SESSION['$dadosContato']['obs'];
+         }
+    }
+       
+    
+
+?>
 <!DOCTYPE>
 <html lang="pt-br">
     <head>
