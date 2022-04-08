@@ -4,8 +4,8 @@
  *     (dados de um form,listagem de dados, ação de excluir ou atualizar).
  *     Esse arquivo sera respomsasvel por emcaminhar as solicitações para a Controller
  * 
- * Autor: Gean
- * Data:04/03/2022
+ * Autor: Leonardo
+ * Data:08/04/2022
  * Versão: 1.0
  * 
  *************************************************************************/
@@ -76,6 +76,30 @@
 
                     //Utilizando o require iremos apenas importar a tela da index, assim não havera um novo carregamento da pagina
                     require_once('index.php');
+                }else if($action == 'EDITAR'){
+
+                    //recebe o id que foi encaminhado no action pela URL
+
+                    $idContato=$_GET['id'];
+
+                    //chama a função editar na controller
+
+                    $resposta =atualizarContato($_POST, $idContato);
+
+                    //valida se os dados da controller retornou
+
+                    if (is_bool($resposta)){
+
+                        //verificar se o retorno foi verdadeiro
+                        if($resposta)
+                            echo("<script>
+                            alert('Registro Atualizado com sucesso');
+                            window.location.href = 'index.php'</script>");
+                    }elseif(is_array($resposta))
+                    echo("<script>
+                            alert('".$resposta['message']."');
+                            window.history.back();
+                            </script>");
                 }       
         break;
                 

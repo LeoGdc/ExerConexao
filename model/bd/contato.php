@@ -21,11 +21,11 @@ function insertContato($dadosContato){
         email,
         obs)
     values
-    ('".$dadosContato["nome"]."',
-    '".$dadosContato["telefone"]."',
-    '".$dadosContato["celular"]."',
-    '".$dadosContato["email"]."',
-    '".$dadosContato["obs"]."');";
+    ('".$dadosContato['nome']."',
+    '".$dadosContato['telefone']."',
+    '".$dadosContato['celular']."',
+    '".$dadosContato['email']."',
+    '".$dadosContato['obs']."');";
     //executa o script no BD
         //Validação para verificar  se o script sql esta correto
     if(mysqli_query($conexao, $sql))
@@ -51,8 +51,41 @@ function insertContato($dadosContato){
     }
 
 //função para realizar update no BD
-function updateContato(){
-
+function updateContato($dadosContato){
+    $statusRespota =(boolean) false;
+     //abre a conexão com o BD
+     $conexao = conexaoMysql();
+     $sql = "update tblcontatos set
+            nome       =   '".$dadosContato['nome']."',
+            telefone   =   '".$dadosContato['telefone']."' ,
+            celular    =   '".$dadosContato['celular']."',
+            email      =   '".$dadosContato['email']."',
+            obs        =   '".$dadosContato['obs']."' 
+        where idcontato = ".$dadosContato['id'];
+         
+   
+     //executa o script no BD
+         //Validação para verificar  se o script sql esta correto
+     if(mysqli_query($conexao, $sql))
+     {
+         //validação para ver se al inha for gravada no bd 
+         if(mysqli_affected_rows($conexao))
+         {
+             fecharConexaoMySql($conexao);
+             $statusRespota = true;
+             }
+             else{
+                 fecharConexaoMySql($conexao);
+                 $statusRespota = false;
+             }
+         }else{
+             fecharConexaoMySql($conexao);
+             $statusRespota = false;
+         }
+ 
+         fecharConexaoMySql($conexao);
+         return $statusRespota;
+         
 }
 //função para realizar delete no BD
 function deleteContato($id){
