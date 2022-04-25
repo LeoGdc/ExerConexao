@@ -40,7 +40,8 @@
                 
             </div>
             <div id="cadastroInformacoes">
-                <form  action="<?=$form?>" name="frmCadastro" method="post">
+                <!-- enctype="multipart/form-data essa opção é obrigatoria para enviar arquivos do formulario em htmlk para o servidor -->
+                <form  action="<?=$form?>" name="frmCadastro" method="post" enctype="multipart/form-data">
                     <div class="campos">
                         <div class="cadastroInformacoesPessoais">
                             <label> Nome: </label>
@@ -74,6 +75,14 @@
                         </div>
                         <div class="cadastroEntradaDeDados">
                             <input type="email" name="txtEmail" value="<?=isset($email)?$email:null?>">
+                        </div>
+                    </div>
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
+                            <label> Escolha um Arquivo </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <input type="file" name="flefoto" accept=".jpg, .png, .jpeg, .gif">
                         </div>
                     </div>
                     <div class="campos">

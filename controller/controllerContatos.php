@@ -8,11 +8,20 @@
  * 
  *********************************************/
 //fução para recerber dados da view e encaminhar parar o model (inserir)
- function inserirContato ($dadosContato){   
+ function inserirContato ($dadosContato, $file){   
     //validação para verificar se o objeto está vazio
     if (!empty($dadosContato)){
         //Validação de caixa vazia dos elementos nome celular e mail pois são obrigatoris no bd
         if (!empty($dadosContato['txtNome']) && !empty($dadosContato['txtCelular']) && !empty($dadosContato['txtEmail'])){
+
+            if($file != null){
+                require_once('modulo/upload.php');
+                $resultado = uploadFile($file['flefoto']);
+                var_dump($resultado);
+                
+                die;
+            }
+           
             
             /****
              * criação do array de dados sra emcaminhado a model

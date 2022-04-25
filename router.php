@@ -25,8 +25,15 @@
 
                 //validação para identificar tipo de ação que sera reaalizado
                 if ($action == 'INSERIR') {
+
+                    if(isset($_FILES)&& !empty($_FILES)){
+                        //chama a função de inserir na controller
+                        $resposta = inserirContato($_POST, $_FILES);
+
+                    }else{
+                        $resposta = inserirContato($_POST, null);
+                    }
                     
-                    $resposta =inserirContato($_POST);
                     if (is_bool($resposta)){
                         if($resposta)
                             echo("<script>
