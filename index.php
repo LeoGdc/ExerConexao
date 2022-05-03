@@ -19,7 +19,7 @@
              $foto      = $_SESSION['dadosContato']['foto'];
 
              //mudamos a ação do form para editar o registro no click do bt "salvar"
-             $form = "router.php?component=contatos&action=editar&id=".$id;
+             $form = "router.php?component=contatos&action=editar&id=".$id."&foto=".$foto;
 
              //destroi uma variavel da memoria do server
              unset($_SESSION['dadosContato']);

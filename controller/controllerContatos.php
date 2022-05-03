@@ -64,7 +64,17 @@
     
 }
 //fução para recerber dados da view e encaminhar parar o model (atualizar)
- function atualizarContato ($dadosContato, $id){
+ function atualizarContato ($dadosContato, $arrayDados){
+
+    //recebe o id enviado pelo arrayDados
+    $id = $arrayDados['id'];
+
+    //recebe foto enviada pelo arrayDados(nome da foto que ja existe no BD)
+    $foto = $arrayDados['foto'];
+
+    //receba o objeto de array referente a nova foto que podera ser enviada ao servidor
+    $file = $arrayDados['file'];
+
      //validação para verificar se o objeto está vazio
      if (!empty($dadosContato)){
         //Validação de caixa vazia dos elementos nome celular e mail pois são obrigatoris no bd
@@ -72,10 +82,27 @@
             //validação para garantir que o id seja valido
             if(!empty($id) && $id !=0 && is_numeric($id)){
 
-            
+
+                //validação para identificar se sera enviado ao servidor uma nova foto
+                if($file['flefoto']['name'] != null){
+
+                    //import da função upload
+                    require_once('modulo/upload.php');
+                    //chama a função de upload
+                
+                    //chama a função de upload para enviar a nova foto ao servidor
+                    $novaFoto = uploadFile($file['flefoto']);
+    
+                }else{
+                    //permanece a mesma foto no BD
+                    $novaFoto = $foto;
+                }
             /****
              * criação do array de dados sra emcaminhado a model
-             * para inserir no BD é importante
+             * para inserir no BD, é importante criar este array conforme
+             * as necessidade de manipulação do BD.
+             * OBS: Criar as chaves do array conforme os nomes dos atributos
+             * do BD
              */
             $arrayDados = array (
                 "id"        => $id,
@@ -83,7 +110,8 @@
                 "telefone"  => $dadosContato['txtTelefone'],
                 "celular"   => $dadosContato['txtCelular'],
                 "email"     => $dadosContato['txtEmail'],
-                "obs"       => $dadosContato['txtObs']
+                "obs"       => $dadosContato['txtObs'],
+                "foto"      => $novaFoto
             );
             //import arquivo de modelagem para manipular o BD
             require_once('model/bd/contato.php');
