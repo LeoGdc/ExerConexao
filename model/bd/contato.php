@@ -19,13 +19,15 @@ function insertContato($dadosContato){
         telefone,
         celular,
         email,
-        obs)
+        obs,
+        foto)
     values
     ('".$dadosContato['nome']."',
     '".$dadosContato['telefone']."',
     '".$dadosContato['celular']."',
     '".$dadosContato['email']."',
-    '".$dadosContato['obs']."');";
+    '".$dadosContato['obs']."',
+    '".$dadosContato['foto']."');";
     //executa o script no BD
         //Validação para verificar  se o script sql esta correto
     if(mysqli_query($conexao, $sql))
@@ -128,19 +130,22 @@ function selectAllContatos(){
         while($rsDados = mysqli_fetch_assoc($result)){
             //Criar um array com os dados BD
                 $arryDados{$cont} = array(
-                    "id" => $rsDados['idcontato'],
-                    "nome" => $rsDados['nome'],
-                    "telefone" => $rsDados['telefone'],
-                    "celular" => $rsDados['celular'],
-                    "email" => $rsDados['email'],
-                    "obs" => $rsDados['obs']  
+                    "id"        => $rsDados['idcontato'],
+                    "nome"      => $rsDados['nome'],
+                    "telefone"  => $rsDados['telefone'],
+                    "celular"   => $rsDados['celular'],
+                    "email"     => $rsDados['email'],
+                    "obs"       => $rsDados['obs'],
+                    "foto"      => $rsDados['foto']  
                 );
             $cont++;
          }
             //solicita o fechamento da conexão com o BD
             fecharConexaoMySql($conexao);
-
-            return $arryDados;
+            if(isset($arryDados))
+                return $arryDados;
+            else 
+                return false;
     }
 }
 //função para buscar um contato no BD atraves do id do registro
@@ -161,12 +166,13 @@ function selectByIdContato($id){
          if($rsDados = mysqli_fetch_assoc($result)){
              //Criar um array com os dados BD
                  $arrayDados = array(
-                     "id" => $rsDados['idcontato'],
-                     "nome" => $rsDados['nome'],
+                     "id"       => $rsDados['idcontato'],
+                     "nome"     => $rsDados['nome'],
                      "telefone" => $rsDados['telefone'],
-                     "celular" => $rsDados['celular'],
-                     "email" => $rsDados['email'],
-                     "obs" => $rsDados['obs']  
+                     "celular"  => $rsDados['celular'],
+                     "email"    => $rsDados['email'],
+                     "obs"      => $rsDados['obs'],
+                     "foto"     => $rsDados['foto']
                  );
           }
              //solicita o fechamento da conexão com o BD

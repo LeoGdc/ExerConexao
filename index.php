@@ -1,7 +1,11 @@
 <?php
+    //import do arquivo de configuracao do projeto
+    require_once('modulo/config.php');
     //variavel criada para diferenciar no action do formulario qual ação deveria ser levada para a router (inserir ou editar).
     //nas condições abaixo, mudamos o action dessa variavel para a ação de editar.
     $form = (string)"router.php?component=contatos&action=inserir";
+    //variavel para carregar o nome da foto do banco de dados
+    $foto = (string) null;
     //valida se a utilização de variaveis de sessao esta ativa no servidor
     if(session_status()){
         //valida se a variavel de sessao dados contato não esta vazia
@@ -12,6 +16,7 @@
              $celular   = $_SESSION['dadosContato']['celular'];
              $email     = $_SESSION['dadosContato']['email'];
              $obs       = $_SESSION['dadosContato']['obs'];
+             $foto      = $_SESSION['dadosContato']['foto'];
 
              //mudamos a ação do form para editar o registro no click do bt "salvar"
              $form = "router.php?component=contatos&action=editar&id=".$id;
@@ -93,6 +98,9 @@
                             <textarea name="txtObs" cols="50" rows="7"><?=isset($obs)?$obs:null?></textarea>
                         </div>
                     </div>
+                    <div class="campos">
+                        <img src="<?=DIRETORIO_FILE_UPLOAD.$foto?>" alt="">
+                    </div>
                     <div class="enviar">
                         <div class="enviar">
                             <input type="submit" name="btnEnviar" value="Salvar">
@@ -112,13 +120,18 @@
                     <td class="tblColunas destaque">Nome</td>
                     <td class="tblColunas destaque">Celular</td>
                     <td class="tblColunas destaque">Email</td>
+                    <td class="tblcolunas destaque">foto</td>
                     <td class="tblColunas destaque">Opções</td> 
                 </tr>
                 <?php
                     require_once('controller/controllerContatos.php');
                     $listaContato = listarContato();
+                    if($listaContato){
+
+                    
                     foreach ($listaContato as $item)
                     {
+                        $foto = $item['foto'];
                 ?>
                
                
@@ -126,12 +139,15 @@
                     <td class="tblColunas registros"><?=$item['nome']?></td>
                     <td class="tblColunas registros"><?=$item['celular']?></td>
                     <td class="tblColunas registros"><?=$item['email']?></td>
+                    <td class="tblColunas registros">
+                        <img src="<?=DIRETORIO_FILE_UPLOAD.$foto?>" class="foto">
+                    </td>
                    
                     <td class="tblColunas registros">
                         <a href="router.php?component=contatos&action=buscar&id=<?=$item['id']?>">
                             <img src="img/edit.png" alt="Editar" title="Editar" class="editar">
                         </a>
-                        <a onclick="return confirm('Deseja realmente Excluir este item?');" href="router.php?component=contatos&action=deletar&id=<?=$item['id']?>">
+                        <a onclick="return confirm('Deseja realmente Excluir este item?');" href="router.php?component=contatos&action=deletar&id=<?=$item['id']?>& foto=<?=$foto?>">
                             <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
                         </a>
                             <img src="img/search.png" alt="Visualizar" title="Visualizar" class="pesquisar">
@@ -139,6 +155,7 @@
                 </tr>
                  <?php
                }
+            }
                ?>
             </table>
         </div>

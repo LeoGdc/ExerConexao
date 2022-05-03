@@ -48,9 +48,17 @@
                 }else if($action =='DELETAR'){
                     //recebe o id do registro q devera ser excluido, que foi enviado pela url no link da img do excluir que foi acionado na index
                     $idContato = $_GET['id'];
+                    $foto = $_GET['foto'];
+
+                    //criamos um array para encaminhar os valores do id e da foto para a controller
+                    $arrayDados = array (
+                        "id" => $idContato,
+                        "foto" => $foto
+
+                    );
 
                     //chama a função de excluir na controller
-                    $resposta = excluirContato($idContato);
+                    $resposta = excluirContato($arrayDados);
                     
                     if(is_bool($resposta)){
                         if($resposta){

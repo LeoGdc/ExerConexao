@@ -9,17 +9,27 @@
  *********************************************/
 //fução para recerber dados da view e encaminhar parar o model (inserir)
  function inserirContato ($dadosContato, $file){   
+    $nomeFoto = (string) null;
     //validação para verificar se o objeto está vazio
     if (!empty($dadosContato)){
         //Validação de caixa vazia dos elementos nome celular e mail pois são obrigatoris no bd
         if (!empty($dadosContato['txtNome']) && !empty($dadosContato['txtCelular']) && !empty($dadosContato['txtEmail'])){
 
-            if($file != null){
+            //validação para identificar se chegou um arquivo para upload
+            if($file['flefoto']['name'] != null){
+
+                //import da função upload
                 require_once('modulo/upload.php');
-                $resultado = uploadFile($file['flefoto']);
-                var_dump($resultado);
-                
-                die;
+                //chama a função de upload
+            
+                $nomeFoto = uploadFile($file['flefoto']);
+
+                if(is_array($nomeFoto)){
+
+                    //caso aconteça algum erro no processo upload a função ira retornar um array com a possivel mensagem de erro.
+                    // esse array sera retornado para a router e ela ira exibir a mensagem para o usuario
+                    return $nomeFoto;
+                }
             }
            
             
@@ -28,11 +38,12 @@
              * para inserir no BD é importante
              */
             $arrayDados = array (
-                "nome" => $dadosContato['txtNome'],
-                "telefone" => $dadosContato['txtTelefone'],
-                "celular" => $dadosContato['txtCelular'],
-                "email" => $dadosContato['txtEmail'],
-                "obs" => $dadosContato['txtObs']
+                "nome"      => $dadosContato['txtNome'],
+                "telefone"  => $dadosContato['txtTelefone'],
+                "celular"   => $dadosContato['txtCelular'],
+                "email"     => $dadosContato['txtEmail'],
+                "obs"       => $dadosContato['txtObs'],
+                "foto"      => $nomeFoto
             );
             //import arquivo de modelagem para manipular o BD
             require_once('model/bd/contato.php');
@@ -94,17 +105,40 @@
     
 }
 //fução para realizar a exclusão de um contato
- function excluirContato ($id)
+ function excluirContato ($arrayDados)
 {
+    //recebe o id do registro que será excluido
+    $id = $arrayDados['id'];
+    // recebe o nome da foto que sera excluida da parte do servidor
+    $foto = $arrayDados['foto'];
     //validação para verificar se o id contem um numero valido
     if($id != 0 && !empty($id) && is_numeric($id)){
         //import do arquivo de contato
         require_once('model/bd/contato.php');
+        //import do arquivo de configuração do projeto
+        require_once('modulo/config.php');
         //chama a função da model e valida se o retorno foi verdadeiro ou falso
-            if(deleteContato($id))
-                return true;
-            else 
+            if(deleteContato($id)){
+                
+                //Validação para caso a foto não exista com o registro
+                    if($foto !=null){
+
+               
+
+                //unlink() - função para apagar um arquivo de um diretorio
+                //permite apagar a foto fisicamente da pasta no servidor
+                    if(unlink(DIRETORIO_FILE_UPLOAD.$foto)){
+                        return true;
+                    }else{
+
+                        return array('idErro' => 5, 'message' => 'O registro do banco de dados foi excluido com sucesso, porem a imagem não foi excluida ');
+                    }
+                }else
+                    return true;
+                
+            }else 
             return array('idErro' => 3, 'message' => 'o banco de dados não pode excluir o registro.');
+            
         }else{
             return array('idErro' => 4, 'message' => 'não é possivel excluir um registro sem informar um id válido');
         }
