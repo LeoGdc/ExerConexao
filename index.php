@@ -55,6 +55,28 @@
                             <input type="text" name="txtNome" value="<?=isset($nome)?$nome:null ?>" placeholder="Digite seu Nome" maxlength="100">
                         </div>
                     </div>
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
+                            <label> Estado: </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <select name="sltEstado">
+                                <option value="">Selecione um item</option>
+                                <?php
+                                    require_once('controller/controllerEstados.php');
+                                    $listestados = listarEstado();
+
+                                    foreach($listestados as $item){
+                                        ?>
+                                            <option value="<?=$item['idestado']?>"><?=$item['nome']?></option>
+                                        <?php
+                                    }
+
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
                                      
                     <div class="campos">
                         <div class="cadastroInformacoesPessoais">

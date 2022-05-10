@@ -7,8 +7,10 @@
  * Versão: 1.0 
  * 
  *********************************************/
+//import do arquivo configuração do projeto
+ require_once('modulo/config.php');
 //fução para recerber dados da view e encaminhar parar o model (inserir)
- function inserirContato ($dadosContato, $file){   
+function inserirContato ($dadosContato, $file){   
     $nomeFoto = (string) null;
     //validação para verificar se o objeto está vazio
     if (!empty($dadosContato)){
@@ -64,8 +66,9 @@
     
 }
 //fução para recerber dados da view e encaminhar parar o model (atualizar)
- function atualizarContato ($dadosContato, $arrayDados){
+function atualizarContato ($dadosContato, $arrayDados){
 
+    $statusUpload = (boolean) null;
     //recebe o id enviado pelo arrayDados
     $id = $arrayDados['id'];
 
@@ -92,6 +95,7 @@
                 
                     //chama a função de upload para enviar a nova foto ao servidor
                     $novaFoto = uploadFile($file['flefoto']);
+                    $statusUpload = true;
     
                 }else{
                     //permanece a mesma foto no BD
@@ -116,11 +120,19 @@
             //import arquivo de modelagem para manipular o BD
             require_once('model/bd/contato.php');
             //chama a função que fara o insert no BD (está função está na model)
-            if (updateContato($arrayDados))
-            return true;
-            else
-            return array('idErro' => 1,
+                if (updateContato($arrayDados)){
+
+                    //validação para vereficar se será necessario apagar a foto antiga 
+                    //está variavel foi ativada em true na linha 105, quando realizamos
+                    //o upload de uma nova foto para o servidor
+                    if($statusUpload){
+                        unlink(DIRETORIO_FILE_UPLOAD.$foto);
+                    }
+                    return true;
+                }else{
+                    return array('idErro' => 1,
                         'message' => 'Não foi possivel atualizar os dados no banco de dados');
+                } 
             }else
             return array('idErro' => 4, 'message' => 'não é possivel atualizar um registro sem informar um id válido');
         }
@@ -133,7 +145,7 @@
     
 }
 //fução para realizar a exclusão de um contato
- function excluirContato ($arrayDados)
+function excluirContato ($arrayDados)
 {
     //recebe o id do registro que será excluido
     $id = $arrayDados['id'];
@@ -172,7 +184,7 @@
         }
     }
 //fução para  solicitar os dados da model e encaminhar a lista de contatos para a view
- function listarContato (){
+function listarContato (){
     //import do arquivo que vai buscar os dados no BD
     require_once('model/bd/contato.php');
     //chama a função que vai buscar os dados no BD
@@ -184,7 +196,7 @@
     return false;
 }
 //função para buscar contato atraves do id de registro
- function buscarContato($id){
+function buscarContato($id){
      //validação para verificar se o id contem um numero valido
      if($id != 0 && !empty($id) && is_numeric($id)){
          //import do arquivo de contato
