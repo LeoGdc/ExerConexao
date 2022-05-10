@@ -116,7 +116,8 @@ function atualizarContato ($dadosContato, $arrayDados){
                 "celular"   => $dadosContato['txtCelular'],
                 "email"     => $dadosContato['txtEmail'],
                 "obs"       => $dadosContato['txtObs'],
-                "foto"      => $novaFoto
+                "foto"      => $novaFoto,
+                "idestado"  => $dadosContato['sltestado']
             );
             //import arquivo de modelagem para manipular o BD
             require_once('model/bd/contato.php');

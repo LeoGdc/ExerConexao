@@ -54,8 +54,7 @@ function insertContato($dadosContato){
         fecharConexaoMySql($conexao);
         return $statusRespota;
         
-    }
-
+}
 //função para realizar update no BD
 function updateContato($dadosContato){
     $statusRespota =(boolean) false;
@@ -66,8 +65,10 @@ function updateContato($dadosContato){
             telefone   =   '".$dadosContato['telefone']."' ,
             celular    =   '".$dadosContato['celular']."',
             email      =   '".$dadosContato['email']."',
-            obs        =   '".$dadosContato['obs']."' 
+            obs        =   '".$dadosContato['obs']."',
+            idestado   =   '".$dadosContato['idestado']."'
         where idcontato = ".$dadosContato['id'];
+
          
    
      //executa o script no BD
@@ -140,7 +141,8 @@ function selectAllContatos(){
                     "celular"   => $rsDados['celular'],
                     "email"     => $rsDados['email'],
                     "obs"       => $rsDados['obs'],
-                    "foto"      => $rsDados['foto'] 
+                    "foto"      => $rsDados['foto'],
+                    "idestado"  => $rsDados['idestado']
                 );
             $cont++;
          }
@@ -176,7 +178,8 @@ function selectByIdContato($id){
                      "celular"  => $rsDados['celular'],
                      "email"    => $rsDados['email'],
                      "obs"      => $rsDados['obs'],
-                     "foto"     => $rsDados['foto']
+                     "foto"     => $rsDados['foto'],
+                     "idestado" => $rsDados['idestado']
                  );
           }
              //solicita o fechamento da conexão com o BD

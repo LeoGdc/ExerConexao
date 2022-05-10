@@ -6,6 +6,9 @@
     $form = (string)"router.php?component=contatos&action=inserir";
     //variavel para carregar o nome da foto do banco de dados
     $foto = (string) null;
+
+    //variavel para ser ultilizada no carregar dos estados (opção de editar)
+    $idestado = (string) null;
     //valida se a utilização de variaveis de sessao esta ativa no servidor
     if(session_status()){
         //valida se a variavel de sessao dados contato não esta vazia
@@ -17,7 +20,7 @@
              $email     = $_SESSION['dadosContato']['email'];
              $obs       = $_SESSION['dadosContato']['obs'];
              $foto      = $_SESSION['dadosContato']['foto'];
-
+             $idestado  = $_SESSION['dadosContato']['idestado'];
              //mudamos a ação do form para editar o registro no click do bt "salvar"
              $form = "router.php?component=contatos&action=editar&id=".$id."&foto=".$foto;
 
@@ -60,7 +63,7 @@
                             <label> Estado: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <select name="sltEstado">
+                            <select name="sltestado">
                                 <option value="">Selecione um item</option>
                                 <?php
                                     require_once('controller/controllerEstados.php');
@@ -68,7 +71,7 @@
 
                                     foreach($listestados as $item){
                                         ?>
-                                            <option value="<?=$item['idestado']?>"><?=$item['nome']?></option>
+                                            <option <?=$idestado==$item['idestado']?'selected':null ?> value="<?=$item['idestado']?>"><?=$item['nome']?></option>
                                         <?php
                                     }
 
