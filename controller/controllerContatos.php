@@ -15,7 +15,7 @@ function inserirContato ($dadosContato, $file){
     //validação para verificar se o objeto está vazio
     if (!empty($dadosContato)){
         //Validação de caixa vazia dos elementos nome celular e mail pois são obrigatoris no bd
-        if (!empty($dadosContato['txtNome']) && !empty($dadosContato['txtCelular']) && !empty($dadosContato['txtEmail'])){
+        if (!empty($dadosContato['txtNome']) && !empty($dadosContato['txtCelular']) && !empty($dadosContato['txtEmail'])&& !empty($dadosContato['sltEstado'])){
 
             //validação para identificar se chegou um arquivo para upload
             if($file['flefoto']['name'] != null){
@@ -45,7 +45,8 @@ function inserirContato ($dadosContato, $file){
                 "celular"   => $dadosContato['txtCelular'],
                 "email"     => $dadosContato['txtEmail'],
                 "obs"       => $dadosContato['txtObs'],
-                "foto"      => $nomeFoto
+                "foto"      => $nomeFoto,
+                "idestado"  => $dadosContato['sltEstado']
             );
             //import arquivo de modelagem para manipular o BD
             require_once('model/bd/contato.php');

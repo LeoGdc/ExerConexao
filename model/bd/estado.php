@@ -28,7 +28,7 @@ function selectAllEstados(){
         while($rsDados = mysqli_fetch_assoc($result)){
             //Criar um array com os dados BD
                 $arryDados{$cont} = array(
-                    "id"        => $rsDados['idestado'],
+                    "idestado"        => $rsDados['idestado'],
                     "nome"      => $rsDados['nome'],
                     "sigla"     => $rsDados['sigla']
                 );

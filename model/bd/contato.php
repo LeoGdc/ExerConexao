@@ -20,14 +20,18 @@ function insertContato($dadosContato){
         celular,
         email,
         obs,
-        foto)
+        foto,
+        idestado)
     values
     ('".$dadosContato['nome']."',
     '".$dadosContato['telefone']."',
     '".$dadosContato['celular']."',
     '".$dadosContato['email']."',
     '".$dadosContato['obs']."',
-    '".$dadosContato['foto']."');";
+    '".$dadosContato['foto']."',
+    '".$dadosContato['idestado']."');";
+
+   
     //executa o script no BD
         //Validação para verificar  se o script sql esta correto
     if(mysqli_query($conexao, $sql))
@@ -136,7 +140,7 @@ function selectAllContatos(){
                     "celular"   => $rsDados['celular'],
                     "email"     => $rsDados['email'],
                     "obs"       => $rsDados['obs'],
-                    "foto"      => $rsDados['foto']  
+                    "foto"      => $rsDados['foto'] 
                 );
             $cont++;
          }
