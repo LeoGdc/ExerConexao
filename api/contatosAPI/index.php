@@ -71,7 +71,7 @@ $app->get('/contatos/{id}', function($request, $response, $args){
                            
     }
 });
-    //
+    //endpoint: requisição para deletar um contato
 $app ->delete('/contatos/{id}', function($request, $response, $args){
     
     if(is_numeric($args['id'])){
@@ -142,6 +142,85 @@ $app ->delete('/contatos/{id}', function($request, $response, $args){
 });
     //endpoint: requisição para inserir um novo contato 
 $app->post('/contatos', function($request, $response, $args){
+
+    //recebe do header da requisição qual será o content-type
+    $contentTypeHeader = $request->getHeaderLine('Content-Type');
+
+    //cria um array, pois dependendo do content-type temos mais informações separadas
+    $contentType  = explode(";", $contentTypeHeader);
+
+    // echo($contentType[0]);
+    // die;
+  
+    switch ($contentType[0]) {
+        case 'multipart/form-data':
+            
+            //recebe os dados comuns enviado pelo corpo da requisição
+            $dadosBody = $request->getParsedBody();
+            
+            //recebe uma imagem enviada pelo corpo da requisição
+            $uploadFiles = $request->getUploadedFiles();
+           
+            //cria um array com todos os dados que chegaram pela requisição, devido aos dados serem protegidos 
+            //criamos um array e recuperamos os dados pelos metodos do objetos
+            $arrayFoto = array(
+                "name" => $uploadFiles['foto']->getClientFileName(),
+                "type" => $uploadFiles['foto']->getClientMediaType(),
+                "size" => $uploadFiles['foto']->getSize(),
+                "tmp_name"=> $uploadFiles['foto']->file
+            );
+
+            //Cria uma chave chamada "foto" para colocar todos os dados do objeto, conforme é gerado em form HTML
+            $file = array("foto" => $arrayFoto);
+
+            //Cria um array com todos os dados comuns e do arquivo será enviado para o serviador
+            $arrayDados = array(
+                $dadosBody,
+                "file" => $file
+            );
+
+            
+            require_once('../modulo/config.php');
+            require_once('../controller/controllerContatos.php');
+
+            $resposta = insertContato($arrayDados);
+
+            if(is_bool($resposta) && $resposta == true){
+
+                return $response ->withStatus(201)
+                ->withHeader('Content-Type','application/json')
+                ->write('{"message": "Registro inserido com sucesso"}');
+
+            }elseif (is_array($resposta) && $resposta['idErro']){
+
+                //Cria o Json dos dados do erro
+                $dadosJSON = createJSON($resposta);
+
+                return  $response ->withStatus(400)
+                ->withHeader('Content-Type','application/json')
+                ->write('{"message": "Houve um problema no processo de inserir.",
+                "Erro": '.$dadosJSON.'}');
+            }
+
+        
+        case 'application/json':
+
+            $dadosBody = $request->getParsedBody();
+            var_dump($dadosBody);
+            die;
+
+            return $response ->withStatus(200)
+                            ->withHeader('Content-Type','application/json')
+                            ->write('{"message": "formato selecionado foi json"}');
+            break;
+
+        default:
+        return $response ->withStatus(404)
+        ->withHeader('Content-Type','application/json')
+        ->write('{"message": "Formato do Content-Type não é válido para esta requisição"}');
+            break;
+    }
+
 
 });
 
