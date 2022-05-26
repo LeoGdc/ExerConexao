@@ -183,7 +183,7 @@ $app->post('/contatos', function($request, $response, $args){
             require_once('../modulo/config.php');
             require_once('../controller/controllerContatos.php');
 
-            $resposta = insertContato($arrayDados);
+            $resposta = inserirContato($arrayDados);
 
             if(is_bool($resposta) && $resposta == true){
 
