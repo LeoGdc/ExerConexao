@@ -39,15 +39,15 @@ function insertContato($dadosContato){
         //validação para ver se al inha for gravada no bd 
         if(mysqli_affected_rows($conexao))
         {
-            fecharConexaoMySql($conexao);
+            
             $statusRespota = true;
             }
             else{
-                fecharConexaoMySql($conexao);
+               
                 $statusRespota = false;
             }
         }else{
-            fecharConexaoMySql($conexao);
+            
             $statusRespota = false;
         }
 

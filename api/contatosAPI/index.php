@@ -1,6 +1,10 @@
 <?php
 
     /************
+     * $request - recebe dados do corpo da reaquisição (JSON, FORM/DATA, XML, etc)
+     * $response - Envia dados de retorno da API
+     * $args - Permite receber dados atribuidos na API
+     * 
      *  os metodos de requisição para a API são
      * Get - para buscar dados
      * Post - para inserir umnobo dado
