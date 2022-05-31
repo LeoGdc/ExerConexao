@@ -1,5 +1,14 @@
 <?php
 
+    /************
+     *  os metodos de requisição para a API são
+     * Get - para buscar dados
+     * Post - para inserir umnobo dado
+     * Delete - para apagar os dados
+     * Put/patch - para editar um dado ja existentes
+     *      O mais ultilizado é o PUT
+     */
+
     //import do arquivo autoload, que fara as intancias do slim
 
 use Slim\Http\Response;
